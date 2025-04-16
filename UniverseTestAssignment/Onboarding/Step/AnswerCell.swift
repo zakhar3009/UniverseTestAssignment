@@ -44,6 +44,7 @@ class AnswerCell: UICollectionViewCell {
     
     private func setupUI() {
         contentView.layer.cornerRadius = 16
+        updateAppearance()
         contentView.addSubview(answerLabel)
     }
     
@@ -57,7 +58,9 @@ class AnswerCell: UICollectionViewCell {
     }
     
     private func updateAppearance() {
-        contentView.backgroundColor = isSelected ? selectedBackgroundColor : normalBackgroundColor
-        answerLabel.textColor = isSelected ? selectedTextColor : normalTextColor
+        UIView.animate(withDuration: 0.25) {
+            self.contentView.backgroundColor = self.isSelected ? self.selectedBackgroundColor : self.normalBackgroundColor
+            self.answerLabel.textColor = self.isSelected ? self.selectedTextColor : self.normalTextColor
+        }
     }
 }
