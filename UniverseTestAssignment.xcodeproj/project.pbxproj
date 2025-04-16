@@ -20,6 +20,13 @@
 		7E344B462DAFE9F900AA916A /* NetworkErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E344B452DAFE9F900AA916A /* NetworkErrors.swift */; };
 		7E344B4C2DAFECBE00AA916A /* OnboardingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E344B4B2DAFECBE00AA916A /* OnboardingVM.swift */; };
 		7E344B4E2DAFECE400AA916A /* OnboardingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E344B4D2DAFECE400AA916A /* OnboardingCard.swift */; };
+		7E344B502DAFF89000AA916A /* OnboardingStepController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E344B4F2DAFF89000AA916A /* OnboardingStepController.swift */; };
+		7E344B532DB0038E00AA916A /* AnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E344B522DB0038E00AA916A /* AnswerCell.swift */; };
+		7E344B552DB00B3F00AA916A /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E344B542DB00B3F00AA916A /* QuestionView.swift */; };
+		7E344B572DB00CF800AA916A /* WelcomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E344B562DB00CF800AA916A /* WelcomeCell.swift */; };
+		7E344B592DB02CF500AA916A /* OnboardingStepVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E344B582DB02CF500AA916A /* OnboardingStepVM.swift */; };
+		7E344B5E2DB0373B00AA916A /* OnboardingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E344B5D2DB0373B00AA916A /* OnboardingController.swift */; };
+		7E344B602DB03B6C00AA916A /* OnboardingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E344B5F2DB03B6C00AA916A /* OnboardingButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +42,13 @@
 		7E344B452DAFE9F900AA916A /* NetworkErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrors.swift; sourceTree = "<group>"; };
 		7E344B4B2DAFECBE00AA916A /* OnboardingVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVM.swift; sourceTree = "<group>"; };
 		7E344B4D2DAFECE400AA916A /* OnboardingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCard.swift; sourceTree = "<group>"; };
+		7E344B4F2DAFF89000AA916A /* OnboardingStepController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingStepController.swift; sourceTree = "<group>"; };
+		7E344B522DB0038E00AA916A /* AnswerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerCell.swift; sourceTree = "<group>"; };
+		7E344B542DB00B3F00AA916A /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
+		7E344B562DB00CF800AA916A /* WelcomeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeCell.swift; sourceTree = "<group>"; };
+		7E344B582DB02CF500AA916A /* OnboardingStepVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingStepVM.swift; sourceTree = "<group>"; };
+		7E344B5D2DB0373B00AA916A /* OnboardingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingController.swift; sourceTree = "<group>"; };
+		7E344B5F2DB03B6C00AA916A /* OnboardingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,9 +118,48 @@
 			isa = PBXGroup;
 			children = (
 				7E344B4B2DAFECBE00AA916A /* OnboardingVM.swift */,
-				7E344B4D2DAFECE400AA916A /* OnboardingCard.swift */,
+				7E344B5D2DB0373B00AA916A /* OnboardingController.swift */,
+				7E344B512DAFFA7000AA916A /* Step */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		7E344B512DAFFA7000AA916A /* Step */ = {
+			isa = PBXGroup;
+			children = (
+				7E344B5A2DB0363300AA916A /* View */,
+				7E344B5B2DB0364000AA916A /* ViewModel */,
+				7E344B5C2DB0364800AA916A /* Model */,
+			);
+			path = Step;
+			sourceTree = "<group>";
+		};
+		7E344B5A2DB0363300AA916A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7E344B4F2DAFF89000AA916A /* OnboardingStepController.swift */,
+				7E344B542DB00B3F00AA916A /* QuestionView.swift */,
+				7E344B522DB0038E00AA916A /* AnswerCell.swift */,
+				7E344B562DB00CF800AA916A /* WelcomeCell.swift */,
+				7E344B5F2DB03B6C00AA916A /* OnboardingButton.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7E344B5B2DB0364000AA916A /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				7E344B582DB02CF500AA916A /* OnboardingStepVM.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		7E344B5C2DB0364800AA916A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7E344B4D2DAFECE400AA916A /* OnboardingCard.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,12 +241,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E344B572DB00CF800AA916A /* WelcomeCell.swift in Sources */,
 				7E344B442DAFE9E700AA916A /* NetworkingService.swift in Sources */,
 				7E344B352DAFE83500AA916A /* AppDelegate.swift in Sources */,
 				7E344B362DAFE83500AA916A /* SceneDelegate.swift in Sources */,
 				7E344B422DAFE99800AA916A /* DecoderService.swift in Sources */,
+				7E344B592DB02CF500AA916A /* OnboardingStepVM.swift in Sources */,
 				7E344B4E2DAFECE400AA916A /* OnboardingCard.swift in Sources */,
+				7E344B532DB0038E00AA916A /* AnswerCell.swift in Sources */,
+				7E344B502DAFF89000AA916A /* OnboardingStepController.swift in Sources */,
+				7E344B552DB00B3F00AA916A /* QuestionView.swift in Sources */,
+				7E344B5E2DB0373B00AA916A /* OnboardingController.swift in Sources */,
 				7E344B372DAFE83500AA916A /* ViewController.swift in Sources */,
+				7E344B602DB03B6C00AA916A /* OnboardingButton.swift in Sources */,
 				7E344B4C2DAFECBE00AA916A /* OnboardingVM.swift in Sources */,
 				7E344B462DAFE9F900AA916A /* NetworkErrors.swift in Sources */,
 			);
