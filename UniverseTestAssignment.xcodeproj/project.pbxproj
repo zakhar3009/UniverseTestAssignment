@@ -25,7 +25,7 @@
 		7E344B552DB00B3F00AA916A /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E344B542DB00B3F00AA916A /* QuestionView.swift */; };
 		7E344B572DB00CF800AA916A /* WelcomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E344B562DB00CF800AA916A /* WelcomeCell.swift */; };
 		7E344B592DB02CF500AA916A /* OnboardingStepVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E344B582DB02CF500AA916A /* OnboardingStepVM.swift */; };
-		7E344B5E2DB0373B00AA916A /* OnboardingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E344B5D2DB0373B00AA916A /* OnboardingController.swift */; };
+		7E344B5E2DB0373B00AA916A /* OnboardingPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E344B5D2DB0373B00AA916A /* OnboardingPageController.swift */; };
 		7E344B602DB03B6C00AA916A /* OnboardingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E344B5F2DB03B6C00AA916A /* OnboardingButton.swift */; };
 /* End PBXBuildFile section */
 
@@ -47,7 +47,7 @@
 		7E344B542DB00B3F00AA916A /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
 		7E344B562DB00CF800AA916A /* WelcomeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeCell.swift; sourceTree = "<group>"; };
 		7E344B582DB02CF500AA916A /* OnboardingStepVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingStepVM.swift; sourceTree = "<group>"; };
-		7E344B5D2DB0373B00AA916A /* OnboardingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingController.swift; sourceTree = "<group>"; };
+		7E344B5D2DB0373B00AA916A /* OnboardingPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageController.swift; sourceTree = "<group>"; };
 		7E344B5F2DB03B6C00AA916A /* OnboardingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -118,7 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				7E344B4B2DAFECBE00AA916A /* OnboardingVM.swift */,
-				7E344B5D2DB0373B00AA916A /* OnboardingController.swift */,
+				7E344B5D2DB0373B00AA916A /* OnboardingPageController.swift */,
 				7E344B512DAFFA7000AA916A /* Step */,
 			);
 			path = Onboarding;
@@ -251,7 +251,7 @@
 				7E344B532DB0038E00AA916A /* AnswerCell.swift in Sources */,
 				7E344B502DAFF89000AA916A /* OnboardingStepController.swift in Sources */,
 				7E344B552DB00B3F00AA916A /* QuestionView.swift in Sources */,
-				7E344B5E2DB0373B00AA916A /* OnboardingController.swift in Sources */,
+				7E344B5E2DB0373B00AA916A /* OnboardingPageController.swift in Sources */,
 				7E344B372DAFE83500AA916A /* ViewController.swift in Sources */,
 				7E344B602DB03B6C00AA916A /* OnboardingButton.swift in Sources */,
 				7E344B4C2DAFECBE00AA916A /* OnboardingVM.swift in Sources */,
