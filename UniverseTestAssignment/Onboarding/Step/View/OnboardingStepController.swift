@@ -6,9 +6,12 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 
 final class OnboardingStepController: UIViewController {
     private var vm: OnboardingStepVM!
+    private let disposeBag = DisposeBag()
     private lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: createCompositionLayout())
         view.backgroundColor = UIColor(resource: .onboardingBackground)
@@ -17,7 +20,7 @@ final class OnboardingStepController: UIViewController {
         return view
     }()
     private lazy var continueButton: OnboardingButton = {
-        OnboardingButton(title: "Continue")
+        OnboardingButton(title: "Continue", isEnabled: false)
     }()
     
     private lazy var dataSource: UICollectionViewDiffableDataSource<Section, Content> = {
@@ -46,6 +49,14 @@ final class OnboardingStepController: UIViewController {
         view.bringSubviewToFront(continueButton)
         collectionView.delegate = self
         setupLayout()
+        setupSubsciptions()
+    }
+    
+    private func setupSubsciptions() {
+        continueButton.rx.tap.subscribe(onNext: { [weak self] in
+            self?.vm.nextStep()
+        })
+        .disposed(by: disposeBag)
     }
     
     private func setupLayout() {

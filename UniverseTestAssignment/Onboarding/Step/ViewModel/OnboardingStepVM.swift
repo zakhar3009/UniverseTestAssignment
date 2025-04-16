@@ -14,9 +14,11 @@ class OnboardingStepVM {
     let answerSubject = PublishRelay<String?>()
     private var selectedAnswer: String?
     private let disposeBag = DisposeBag()
+    let nextStep: () -> Void
     
-    init(card: OnboardingCard) {
+    init(card: OnboardingCard, nextStep: @escaping () -> Void) {
         self.card = card
+        self.nextStep = nextStep
         setupPulishers()
     }
     
