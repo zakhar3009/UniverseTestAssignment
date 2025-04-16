@@ -17,9 +17,10 @@ class OnboardingButton: UIButton {
         fatalError("Init(coder:) has not been implemented")
     }
     
-    init(title: String) {
+    init(title: String, isEnabled: Bool = true) {
         super.init(frame: .zero)
-        setupStyle(title: title)
+        setupStyle(title: title, isEnabled: isEnabled)
+        self.isEnabled = isEnabled
     }
     
     override var isEnabled: Bool {
@@ -28,7 +29,7 @@ class OnboardingButton: UIButton {
         }
     }
     
-    private func setupStyle(title: String) {
+    private func setupStyle(title: String, isEnabled: Bool) {
         setTitle(title, for: .normal)
         titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         setTitleColor(enabledTitleColor,  for: .normal)
@@ -39,7 +40,7 @@ class OnboardingButton: UIButton {
         layer.shadowOffset = CGSize(width: 0, height: 4)
         layer.shadowRadius = 20
         translatesAutoresizingMaskIntoConstraints = false
-        updateStyle()
+        backgroundColor = isEnabled ? enabledBackground : disabledBackground
     }
     
     private func updateStyle() {

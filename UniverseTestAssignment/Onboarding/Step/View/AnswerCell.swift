@@ -34,7 +34,6 @@ class AnswerCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             updateAppearance()
-            print(isSelected)
         }
     }
     
