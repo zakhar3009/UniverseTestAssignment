@@ -14,6 +14,7 @@ class OnboardingPageController: UIPageViewController {
                           cardsUrl: URL(string: "https://test-ios.universeapps.limited/onboarding")!)
     private let disposeBag = DisposeBag()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -42,10 +43,9 @@ class OnboardingPageController: UIPageViewController {
                 self?.vm.answerSubject.accept((card.question, answer))
             })
             .disposed(by: disposeBag)
-        vm.continueSubject.subscribe(onNext: { [weak self] in
-            self?.vm.nextStep()
-        })
-        .disposed(by: disposeBag)
+        vm.continueSubject
+            .bind(to: self.vm.continueSubject)
+            .disposed(by: disposeBag)
         return vm
     }
     
