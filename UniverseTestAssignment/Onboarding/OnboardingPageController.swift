@@ -39,7 +39,7 @@ class OnboardingPageController: UIPageViewController {
         vm.answerSubject
             .compactMap({ $0 })
             .subscribe(onNext: { [weak self] answer in
-                self?.vm.selectAnswer(answer)
+                self?.vm.answerSubject.accept((card.question, answer))
             })
             .disposed(by: disposeBag)
         vm.continueSubject.subscribe(onNext: { [weak self] in

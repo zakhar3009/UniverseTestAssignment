@@ -11,20 +11,21 @@ import RxSwift
 
 class OnboardingStepVM {
     let card: OnboardingCard
-    let answerSubject = PublishRelay<String?>()
+    let answerSubject = BehaviorRelay<String?>(value: nil)
     let continueSubject = PublishRelay<Void>()
-    private var selectedAnswer: String?
+    private let continueEnabledSubject = PublishRelay<Bool>()
+    private(set) lazy var continueEnabledObservable = continueEnabledSubject.asObservable()
     private let disposeBag = DisposeBag()
     
     init(card: OnboardingCard) {
         self.card = card
-        setupPulishers()
+        setupSubscriptions()
     }
     
-    func setupPulishers() {
-        answerSubject.subscribe { [weak self] answer in
-            self?.selectedAnswer = answer
-        }
+    func setupSubscriptions() {
+        answerSubject.subscribe(onNext: { [weak self] answer in
+            self?.continueEnabledSubject.accept(answer != nil)
+        })
         .disposed(by: disposeBag)
     }
 }

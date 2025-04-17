@@ -56,6 +56,10 @@ final class OnboardingStepController: UIViewController {
         continueButton.rx.tap
             .bind(to: vm.continueSubject)
             .disposed(by: disposeBag)
+        vm.continueEnabledObservable.subscribe(onNext: { [weak self] enabled in
+            self?.continueButton.isEnabled = enabled
+        })
+        .disposed(by: disposeBag)
     }
     
     private func setupLayout() {
@@ -182,7 +186,6 @@ extension OnboardingStepController: UICollectionViewDelegate {
         if cv.indexPathsForSelectedItems?.first == indexPath {
             cv.deselectItem(at: indexPath, animated: false)
             vm.answerSubject.accept(nil)
-            continueButton.isEnabled = false
             return false
         }
         return true
@@ -191,6 +194,5 @@ extension OnboardingStepController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard indexPath.section > 0 else { return }
         vm.answerSubject.accept(vm.card.answers[indexPath.row])
-        continueButton.isEnabled = true
     }
 }

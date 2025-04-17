@@ -12,15 +12,21 @@ class OnboardingVM {
     private let cardsUrl: URL
     private let networkingService: NetworkingService
     private let disposeBag = DisposeBag()
-    private let cardSubject = PublishRelay<OnboardingCard>()
+    private let cardIndexSubject = BehaviorRelay<Int?>(value: nil)
     private var cards: [OnboardingCard] = []
-    private var currentCardIndex = 0
-    private(set) lazy var cardObservable = cardSubject.asObservable()
     private var selectedAnswers: [String: String] = [:]
+    let answerSubject = PublishRelay<(question: String, answer: String)>()
+    private(set) lazy var cardObservable: Observable<OnboardingCard> = cardIndexSubject
+        .compactMap { [weak self] index in
+            guard let self, let index, index < self.cards.count else { return nil }
+            return self.cards[index]
+        }
+        .asObservable()
     
     init(networkingService: NetworkingService, cardsUrl: URL) {
         self.networkingService = networkingService
         self.cardsUrl = cardsUrl
+        setupSubscriptions()
     }
     
     func fetchOnboardingCards() {
@@ -28,7 +34,7 @@ class OnboardingVM {
             .subscribe(onSuccess: { [weak self] (data: OnboardingCardsResponse) in
                 guard !data.items.isEmpty else { return }
                 self?.cards = data.items
-                self?.cardSubject.accept(data.items[0])
+                self?.cardIndexSubject.accept(0)
             }, onFailure: { error in
                 if let networkError = error as? NetworkingError {
                     print("Network error while fetching onboarding cards: \(networkError.description)")
@@ -39,15 +45,18 @@ class OnboardingVM {
             .disposed(by: disposeBag)
     }
     
-    func nextStep() {
-        if currentCardIndex < cards.count - 1 {
-            currentCardIndex += 1
-            cardSubject.accept(cards[currentCardIndex])
-        }
-        print(selectedAnswers)
+    func setupSubscriptions() {
+        answerSubject.subscribe(onNext: { [weak self] (question, answer) in
+            self?.selectedAnswers[question] = answer
+        })
+        .disposed(by: disposeBag)
     }
     
-    func selectAnswer(_ answer: String) {
-        selectedAnswers[cards[currentCardIndex].question] = answer
+    func nextStep() {
+        guard let index = cardIndexSubject.value else { return }
+        if index < cards.count - 1 {
+            cardIndexSubject.accept(index + 1)
+        }
+        print(selectedAnswers)
     }
 }
