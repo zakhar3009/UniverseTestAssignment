@@ -6,11 +6,15 @@
 //
 
 import UIKit
+import RxSwift
+import StoreKit
 
 class SubscriptionController: UIViewController {
+    let vm = SubscriptionVM()
     private lazy var agreementView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.isEditable = false
         textView.isScrollEnabled = false
         textView.linkTextAttributes = [
             .foregroundColor: UIColor.systemBlue
@@ -44,26 +48,10 @@ class SubscriptionController: UIViewController {
         textView.attributedText = attributedString
         return textView
     }()
-    private lazy var descriptionLabel: UILabel = {
+    private lazy var subscriptionDescriptionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        let fullText = "Try 7 days for free\nthen $6.99 per week, auto-renewable"
-        let attributedString = NSMutableAttributedString(
-            string: fullText,
-            attributes: [
-                .font: UIFont.systemFont(ofSize: 16, weight: .medium),
-                .foregroundColor: UIColor(resource: .secondaryText)
-            ]
-        )
-        if let range = fullText.range(of: "$6.99") {
-            let nsRange = NSRange(range, in: fullText)
-            attributedString.addAttributes([
-                .font: UIFont.boldSystemFont(ofSize: 16),
-                .foregroundColor: UIColor.black
-            ], range: nsRange)
-        }
-        label.attributedText = attributedString
         return label
     }()
     private lazy var titleLabel: UILabel = {
@@ -92,17 +80,32 @@ class SubscriptionController: UIViewController {
     private lazy var startButton: OnboardingButton = {
         OnboardingButton(title: "Start now")
     }()
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         view.backgroundColor = .white
         setupUI()
         setupLayout()
+        setupSubscriptions()
+    }
+    
+    private func setupSubscriptions() {
+        startButton.rx.tap
+            .bind(to: vm.startSubject)
+            .disposed(by: disposeBag)
+        vm.productObservable
+            .compactMap { $0 }
+            .subscribe(onNext: { [weak self] product in
+                guard let self else { return }
+                subscriptionDescriptionLabel.attributedText = configureSubscriptionDescription(for: product)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func setupUI() {
         view.addSubview(imageView)
         view.addSubview(titleLabel)
-        view.addSubview(descriptionLabel)
+        view.addSubview(subscriptionDescriptionLabel)
         view.addSubview(agreementView)
         view.addSubview(startButton)
         view.addSubview(closeButton)
@@ -139,9 +142,51 @@ class SubscriptionController: UIViewController {
             closeButton.widthAnchor.constraint(equalToConstant: 24)
         ])
         NSLayoutConstraint.activate([
-            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
-            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
+            subscriptionDescriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
+            subscriptionDescriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            subscriptionDescriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
         ])
+    }
+    
+    private func configureSubscriptionDescription(for product: Product) -> NSAttributedString {
+        let baseFont = UIFont.systemFont(ofSize: 16, weight: .medium)
+        let secondaryColor = UIColor(resource: .secondaryText)
+        let boldFont = UIFont.boldSystemFont(ofSize: 16)
+        let blackColor = UIColor.black
+        var fullText = ""
+        var priceText = ""
+        if let trial = product.subscription?.introductoryOffer, trial.paymentMode == .freeTrial {
+            let unit = trial.period.unit
+            let value = trial.period.value
+            let unitString = unit == .day ? "day" : unit == .week ? "week" : unit == .month ? "month" : "year"
+            fullText += "Try \(value) \(unitString)\(value > 1 ? "s" : "") for free\n"
+        }
+        if let subscription = product.subscription {
+            let period = subscription.subscriptionPeriod
+            let duration = switch period.unit {
+            case .day: "\(period.value) day"
+            case .week: "\(period.value) week"
+            case .month: "\(period.value) month"
+            case .year: "\(period.value) year"
+            default: "period"
+            }
+            priceText = product.displayPrice
+            fullText += "then \(priceText) per \(duration), auto-renewable"
+        }
+        let attributed = NSMutableAttributedString(
+            string: fullText,
+            attributes: [
+                .font: baseFont,
+                .foregroundColor: secondaryColor
+            ]
+        )
+        if let priceRange = fullText.range(of: priceText) {
+            let nsRange = NSRange(priceRange, in: fullText)
+            attributed.addAttributes([
+                .font: boldFont,
+                .foregroundColor: blackColor
+            ], range: nsRange)
+        }
+        return attributed
     }
 }
