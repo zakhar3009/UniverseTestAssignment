@@ -124,7 +124,7 @@ extension OnboardingStepController {
         let section = NSCollectionLayoutSection(group: group)
         section.boundarySupplementaryItems = [headerItem]
         section.interGroupSpacing = 12
-        section.contentInsets = .init(top: 20, leading: 24, bottom: 20, trailing: 24)
+        section.contentInsets = .init(top: 20, leading: 24, bottom: 120, trailing: 24)
         return section
     }
 }

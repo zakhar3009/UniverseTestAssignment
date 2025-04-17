@@ -17,36 +17,24 @@ class SubscriptionController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isEditable = false
         textView.isScrollEnabled = false
+        textView.isUserInteractionEnabled = true
         textView.linkTextAttributes = [
             .foregroundColor: UIColor.systemBlue
         ]
-        let baseText = "By continuing you accept our:\n Terms of Use, Privacy Policy, Subscription Terms"
-        let attributedString = NSMutableAttributedString(
-            string: baseText,
-            attributes: [
-                .font: UIFont.systemFont(ofSize: 12),
-                .foregroundColor: UIColor(resource: .secondaryText)
-            ]
+        let builder = AttributedTextBuilder(
+            baseFont: .systemFont(ofSize: 12),
+            baseColor: UIColor(resource: .secondaryText)
         )
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.minimumLineHeight = 14
-        paragraphStyle.alignment = .center
-        attributedString.addAttributes([
-            .paragraphStyle: paragraphStyle
-        ], range: NSRange(location: 0, length: attributedString.length))
-        let linkAttributes: [NSAttributedString.Key: Any] = [
-            .link: URL(string: "https://example.com/terms")!
-        ]
-        if let range = baseText.range(of: "Terms of Use") {
-            attributedString.addAttribute(.link, value: "https://example.com", range: NSRange(range, in: baseText))
-        }
-        if let range = baseText.range(of: "Privacy Policy") {
-            attributedString.addAttribute(.link, value: "https://example.com", range: NSRange(range, in: baseText))
-        }
-        if let range = baseText.range(of: "Subscription Terms") {
-            attributedString.addAttribute(.link, value: "https://example.com", range: NSRange(range, in: baseText))
-        }
-        textView.attributedText = attributedString
+        let agreementText = builder
+            .setParagraphAlignment(.center)
+            .append("By continuing you accept our:\n")
+            .makeLink("Terms of Use", url: URL(string: "https://example.com/terms")!)
+            .append(", ")
+            .makeLink("Privacy Policy", url: URL(string: "https://example.com/privacy")!)
+            .append(", ")
+            .makeLink("Subscription Terms", url: URL(string: "https://example.com/subscription")!)
+            .build()
+        textView.attributedText = agreementText
         return textView
     }()
     private lazy var subscriptionDescriptionLabel: UILabel = {
@@ -165,44 +153,25 @@ class SubscriptionController: UIViewController {
     }
     
     private func configureSubscriptionDescription(for product: Product) -> NSAttributedString {
-        let baseFont = UIFont.systemFont(ofSize: 16, weight: .medium)
-        let secondaryColor = UIColor(resource: .secondaryText)
-        let boldFont = UIFont.boldSystemFont(ofSize: 16)
-        let blackColor = UIColor.black
-        var fullText = ""
-        var priceText = ""
-        if let trial = product.subscription?.introductoryOffer, trial.paymentMode == .freeTrial {
-            let unit = trial.period.unit
-            let value = trial.period.value
-            let unitString = unit == .day ? "day" : unit == .week ? "week" : unit == .month ? "month" : "year"
-            fullText += "Try \(value) \(unitString)\(value > 1 ? "s" : "") for free\n"
+        let builder = AttributedTextBuilder(
+            baseFont: .systemFont(ofSize: 16, weight: .medium),
+            baseColor: UIColor(resource: .secondaryText)
+        )
+        builder.setParagraphAlignment(.left)
+        if let trial = product.subscription?.introductoryOffer,
+           trial.paymentMode == .freeTrial {
+            let formattedPeriod = product.formatPeriod(value: trial.period.value, unit: trial.period.unit.description)
+            builder.append("Try \(formattedPeriod) for free")
+                .newLine()
         }
         if let subscription = product.subscription {
             let period = subscription.subscriptionPeriod
-            let duration = switch period.unit {
-            case .day: "\(period.value) day"
-            case .week: "\(period.value) week"
-            case .month: "\(period.value) month"
-            case .year: "\(period.value) year"
-            default: "period"
-            }
-            priceText = product.displayPrice
-            fullText += "then \(priceText) per \(duration), auto-renewable"
+            let price = product.displayPrice
+            let formattedPeriod = product.formatPeriod(value: period.value, unit: period.unit.description)
+            builder.append("then ")
+                .bold(price, color: .black)
+                .append(" per \(formattedPeriod), auto-renewable")
         }
-        let attributed = NSMutableAttributedString(
-            string: fullText,
-            attributes: [
-                .font: baseFont,
-                .foregroundColor: secondaryColor
-            ]
-        )
-        if let priceRange = fullText.range(of: priceText) {
-            let nsRange = NSRange(priceRange, in: fullText)
-            attributed.addAttributes([
-                .font: boldFont,
-                .foregroundColor: blackColor
-            ], range: nsRange)
-        }
-        return attributed
+        return builder.build()
     }
 }
