@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 
 class OnboardingPageController: UIPageViewController {
+    weak var coordinator: OnboardingCoordinator?
     private let vm: OnboardingVM
     private let disposeBag = DisposeBag()
     
@@ -19,7 +20,7 @@ class OnboardingPageController: UIPageViewController {
     
     init(vm: OnboardingVM) {
         self.vm = vm
-        super.init()
+        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
     }
     
     override func viewDidLoad() {
@@ -36,6 +37,10 @@ class OnboardingPageController: UIPageViewController {
                 guard let self else { return }
                 let page = OnboardingStepController(vm: configureVm(for: card))
                 performTransition(to: page)
+        })
+        .disposed(by: disposeBag)
+        vm.navigationObservable.subscribe(onNext: { [weak self] in
+            self?.coordinator?.goToSubscription()
         })
         .disposed(by: disposeBag)
     }

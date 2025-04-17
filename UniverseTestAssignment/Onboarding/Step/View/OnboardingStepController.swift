@@ -39,7 +39,7 @@ final class OnboardingStepController: UIViewController {
     
     init(vm: OnboardingStepVM) {
         self.vm = vm
-        super.init()
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {

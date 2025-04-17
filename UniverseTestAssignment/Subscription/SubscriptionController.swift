@@ -10,7 +10,8 @@ import RxSwift
 import StoreKit
 
 class SubscriptionController: UIViewController {
-    let vm = SubscriptionVM()
+    weak var coordinator: OnboardingCoordinator?
+    private let vm: SubscriptionVM
     private lazy var agreementView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -82,6 +83,15 @@ class SubscriptionController: UIViewController {
     }()
     private let disposeBag = DisposeBag()
     
+    init(vm: SubscriptionVM) {
+        self.vm = vm
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         view.backgroundColor = .white
         setupUI()
@@ -100,9 +110,15 @@ class SubscriptionController: UIViewController {
                 subscriptionDescriptionLabel.attributedText = configureSubscriptionDescription(for: product)
             })
             .disposed(by: disposeBag)
+        closeButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.coordinator?.back()
+            })
+            .disposed(by: disposeBag)
     }
     
     private func setupUI() {
+        navigationController?.setNavigationBarHidden(true, animated: false)
         view.addSubview(imageView)
         view.addSubview(titleLabel)
         view.addSubview(subscriptionDescriptionLabel)

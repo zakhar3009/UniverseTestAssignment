@@ -11,19 +11,31 @@ import RxRelay
 import StoreKit
 
 final class SubscriptionVM {
+    // MARK: - Inputs
     let startSubject = PublishRelay<Void>()
+    
+    // MARK: - Outputs
     private let purchasedSubject = PublishRelay<Bool>()
     private(set) lazy var purchasedObservable = purchasedSubject.asObservable()
-    private let purchaseService = PurchaseService()
-    private let subscriptionId = "com.test.weeklySubscription"
     private let productSubject = BehaviorRelay<Product?>(value: nil)
     private(set) lazy var productObservable = productSubject.asObservable()
+    
+    // MARK: - Dependencies
+    private let purchaseService: PurchaseService
+    
+    // MARK: - Constants
+    private let subscriptionId = "com.test.weeklySubscription"
+    
+    // MARK: - State
     private let disposeBag = DisposeBag()
-
-    init() {
+    
+    // MARK: - Init
+    init(purchaseService: PurchaseService) {
+        self.purchaseService = purchaseService
         setupSubscriptions()
     }
-
+    
+    // MARK: - Subscriptions
     private func setupSubscriptions() {
         purchaseService.productsSubject
             .compactMap { [weak self] products in

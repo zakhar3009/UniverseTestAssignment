@@ -11,6 +11,8 @@
 		7E0DCCCD2DB131870013BB38 /* Products.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 7E0DCCCC2DB131870013BB38 /* Products.storekit */; };
 		7E0DCCCF2DB134220013BB38 /* SubscriptionVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0DCCCE2DB134220013BB38 /* SubscriptionVM.swift */; };
 		7E0DCCD12DB135FC0013BB38 /* PurchaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0DCCD02DB135FC0013BB38 /* PurchaseService.swift */; };
+		7E0DCCD42DB156DB0013BB38 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0DCCD32DB156DB0013BB38 /* Coordinator.swift */; };
+		7E0DCCD62DB1571C0013BB38 /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0DCCD52DB1571C0013BB38 /* OnboardingCoordinator.swift */; };
 		7E344B322DAFE83500AA916A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E344B2B2DAFE83500AA916A /* Assets.xcassets */; };
 		7E344B342DAFE83500AA916A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E344B2E2DAFE83500AA916A /* LaunchScreen.storyboard */; };
 		7E344B352DAFE83500AA916A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E344B2A2DAFE83500AA916A /* AppDelegate.swift */; };
@@ -37,6 +39,8 @@
 		7E0DCCCC2DB131870013BB38 /* Products.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Products.storekit; sourceTree = "<group>"; };
 		7E0DCCCE2DB134220013BB38 /* SubscriptionVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionVM.swift; sourceTree = "<group>"; };
 		7E0DCCD02DB135FC0013BB38 /* PurchaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseService.swift; sourceTree = "<group>"; };
+		7E0DCCD32DB156DB0013BB38 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		7E0DCCD52DB1571C0013BB38 /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
 		7E344B122DAFE7F100AA916A /* UniverseTestAssignment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UniverseTestAssignment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E344B2A2DAFE83500AA916A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7E344B2B2DAFE83500AA916A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -89,6 +93,15 @@
 			path = InAppPurchases;
 			sourceTree = "<group>";
 		};
+		7E0DCCD22DB156CD0013BB38 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				7E0DCCD32DB156DB0013BB38 /* Coordinator.swift */,
+				7E0DCCD52DB1571C0013BB38 /* OnboardingCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
 		7E344B092DAFE7F100AA916A = {
 			isa = PBXGroup;
 			children = (
@@ -113,6 +126,7 @@
 				7E344B392DAFE91400AA916A /* Networking */,
 				7E344B4A2DAFECAB00AA916A /* Onboarding */,
 				7E0DCCC82DB11A320013BB38 /* Subscription */,
+				7E0DCCD22DB156CD0013BB38 /* Coordinator */,
 				7E0DCCCB2DB131670013BB38 /* InAppPurchases */,
 				7E344B2B2DAFE83500AA916A /* Assets.xcassets */,
 				7E344B2E2DAFE83500AA916A /* LaunchScreen.storyboard */,
@@ -275,9 +289,11 @@
 				7E344B422DAFE99800AA916A /* DecoderService.swift in Sources */,
 				7E344B592DB02CF500AA916A /* OnboardingStepVM.swift in Sources */,
 				7E344B4E2DAFECE400AA916A /* OnboardingCard.swift in Sources */,
+				7E0DCCD42DB156DB0013BB38 /* Coordinator.swift in Sources */,
 				7E0DCCCF2DB134220013BB38 /* SubscriptionVM.swift in Sources */,
 				7E344B532DB0038E00AA916A /* AnswerCell.swift in Sources */,
 				7E344B502DAFF89000AA916A /* OnboardingStepController.swift in Sources */,
+				7E0DCCD62DB1571C0013BB38 /* OnboardingCoordinator.swift in Sources */,
 				7E0DCCCA2DB11A480013BB38 /* SubscriptionController.swift in Sources */,
 				7E344B552DB00B3F00AA916A /* QuestionView.swift in Sources */,
 				7E344B5E2DB0373B00AA916A /* OnboardingPageController.swift in Sources */,
