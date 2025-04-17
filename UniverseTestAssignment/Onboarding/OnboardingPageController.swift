@@ -10,10 +10,17 @@ import RxSwift
 import RxCocoa
 
 class OnboardingPageController: UIPageViewController {
-    private let vm = OnboardingVM(networkingService: NetworkingService(decoderService: DecoderService()),
-                          cardsUrl: URL(string: "https://test-ios.universeapps.limited/onboarding")!)
+    private let vm: OnboardingVM
     private let disposeBag = DisposeBag()
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    init(vm: OnboardingVM) {
+        self.vm = vm
+        super.init()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,9 +34,7 @@ class OnboardingPageController: UIPageViewController {
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] card in
                 guard let self else { return }
-                let vm = configureVm(for: card)
-                let page = OnboardingStepController()
-                page.configure(with: vm)
+                let page = OnboardingStepController(vm: configureVm(for: card))
                 performTransition(to: page)
         })
         .disposed(by: disposeBag)

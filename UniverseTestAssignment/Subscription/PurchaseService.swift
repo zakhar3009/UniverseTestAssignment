@@ -24,7 +24,7 @@ final class PurchaseService {
             .subscribe(onSuccess: { [weak self] products in
                 self?.productsSubject.onNext(products)
             }, onFailure: { error in
-                print("Failed to auto-load products: \(error.localizedDescription)")
+                print("Failed to load products: \(error.localizedDescription)")
             })
             .disposed(by: disposeBag)
     }

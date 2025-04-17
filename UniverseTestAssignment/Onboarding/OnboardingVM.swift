@@ -15,14 +15,14 @@ class OnboardingVM {
     private let cardIndexSubject = BehaviorRelay<Int?>(value: nil)
     private var cards: [OnboardingCard] = []
     private var selectedAnswers: [String: String] = [:]
-    let answerSubject = PublishRelay<(question: String, answer: String)>()
-    let continueSubject = PublishRelay<Void>()
     private(set) lazy var cardObservable: Observable<OnboardingCard> = cardIndexSubject
         .compactMap { [weak self] index in
             guard let self, let index, index < self.cards.count else { return nil }
             return self.cards[index]
         }
         .asObservable()
+    let answerSubject = PublishRelay<(question: String, answer: String)>()
+    let continueSubject = PublishRelay<Void>()
     
     init(networkingService: NetworkingService, cardsUrl: URL) {
         self.networkingService = networkingService
@@ -46,7 +46,7 @@ class OnboardingVM {
             .disposed(by: disposeBag)
     }
     
-    func setupSubscriptions() {
+    private func setupSubscriptions() {
         answerSubject.subscribe(onNext: { [weak self] (question, answer) in
             self?.selectedAnswers[question] = answer
         })
