@@ -12,13 +12,12 @@ import RxSwift
 class OnboardingStepVM {
     let card: OnboardingCard
     let answerSubject = PublishRelay<String?>()
+    let continueSubject = PublishRelay<Void>()
     private var selectedAnswer: String?
     private let disposeBag = DisposeBag()
-    let nextStep: () -> Void
     
-    init(card: OnboardingCard, nextStep: @escaping () -> Void) {
+    init(card: OnboardingCard) {
         self.card = card
-        self.nextStep = nextStep
         setupPulishers()
     }
     

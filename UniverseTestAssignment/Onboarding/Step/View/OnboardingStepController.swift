@@ -53,10 +53,9 @@ final class OnboardingStepController: UIViewController {
     }
     
     private func setupSubsciptions() {
-        continueButton.rx.tap.subscribe(onNext: { [weak self] in
-            self?.vm.nextStep()
-        })
-        .disposed(by: disposeBag)
+        continueButton.rx.tap
+            .bind(to: vm.continueSubject)
+            .disposed(by: disposeBag)
     }
     
     private func setupLayout() {
