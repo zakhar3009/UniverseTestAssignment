@@ -26,19 +26,37 @@ class OnboardingPageController: UIPageViewController {
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] card in
                 guard let self else { return }
-                let vm = OnboardingStepVM(card: card) { [weak self] in
-                    self?.vm.nextStep()
-                }
-                vm.answerSubject
-                    .compactMap({ $0 })
-                    .subscribe(onNext: { [weak self] answer in
-                        self?.vm.selectAnswer(answer)
-                    })
-                    .disposed(by: disposeBag)
+                let vm = configureVm(for: card)
                 let page = OnboardingStepController()
                 page.configure(with: vm)
-                setViewControllers([page], direction: .forward, animated: false)
+                performTransition(to: page)
         })
         .disposed(by: disposeBag)
+    }
+    
+    private func configureVm(for card: OnboardingCard) -> OnboardingStepVM {
+        let vm = OnboardingStepVM(card: card)
+        vm.answerSubject
+            .compactMap({ $0 })
+            .subscribe(onNext: { [weak self] answer in
+                self?.vm.selectAnswer(answer)
+            })
+            .disposed(by: disposeBag)
+        vm.continueSubject.subscribe(onNext: { [weak self] in
+            self?.vm.nextStep()
+        })
+        .disposed(by: disposeBag)
+        return vm
+    }
+    
+    private func performTransition(to page: OnboardingStepController) {
+        UIView.transition(
+            with: self.view,
+            duration: 0.2,
+            options: [.transitionCrossDissolve],
+            animations: { [weak self] in
+                guard let self else { return }
+                self.setViewControllers([page], direction: .forward, animated: false)
+            })
     }
 }
